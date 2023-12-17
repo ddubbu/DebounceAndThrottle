@@ -2,8 +2,11 @@
 <html>
 <head>
 <body>
+  <h3>Thrttole 적용 사례</h3>
   <div id="scroll-container">
-    <div id="scroll-target"></div>
+    <div id="scroll-target">
+      <div id="scroll-content">SCROLL HERE!</div>
+    </div>
   </div>
   <div id="container">
     <div id="left">
@@ -56,6 +59,12 @@
     padding: 20px;
   }
 
+  h3 {
+    border-bottom: 6px solid gray;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+  }
+
   #scroll-container {
     width: 300px;
     height: 300px;
@@ -66,6 +75,13 @@
   #scroll-target {
     width: 100%;
     height: 1000vh;
+    position: relative;
+  }
+
+  #scroll-content{
+    position: sticky; 
+    top: 10px;
+    height: 100px;
   }
 </style>
 </html>
