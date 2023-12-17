@@ -1,35 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <style>
-    .container {
-      width: 300px;
-      height: 300px;
-      background-color: rebeccapurple;
-      overflow: scroll;
-    }
-
-    .content {
-      width: 300px;
-      height: 1000vh;
-    }
-  </style>
-</head>
 <body>
-  <div class="container">
-    <div class="content"></div>
+  <div id="scroll-container">
+    <div id="scroll-target"></div>
   </div>
-  <div>
-    일반 이벤트 핸들러가 scroll 이벤트를 처리한 횟수:
-    <span class="normal-count">0</span>
+  <div id="container">
+    <div id="left">
+      <h4> (no throttle) 스크롤 이벤트</h4>
+      <span class="normal-count">0</span>
+    </div>
+    <div id="right">
+      <h4>(with throttle, delay 100ms) 스크롤 이벤트</h4>
+      <span class="throttle-count">0</span>
+    </div>
   </div>
-  <div>
-    스로틀 이벤트 핸들러가 scroll 이벤트를 처리한 횟수:
-    <span class="throttle-count">0</span>
-  </div>
-
   <script>
-    const $container = document.querySelector('.container');
+    const $scrollTargetContainer = document.querySelector('#scroll-container');
     const $normalCount = document.querySelector('.normal-count');
     const $throttleCount = document.querySelector('.throttle-count');
 
@@ -49,15 +36,36 @@
     };
 
     let normalCount = 0;
-    $container.addEventListener('scroll', () => {
+    $scrollTargetContainer.addEventListener('scroll', () => {
       $normalCount.textContent = ++normalCount;
     });
 
     let throttleCount = 0;
     // throttle 함수가 반환하는 클로저가 이벤트 핸들러로 등록된다.
-    $container.addEventListener('scroll', throttle(() => {
+    $scrollTargetContainer.addEventListener('scroll', throttle(() => {
       $throttleCount.textContent = ++throttleCount;
     }, 100));
   </script>
 </body>
+<style>
+  body {
+    border: 1px solid gray;
+    border-radius: 25px;
+    width: 500px;
+    margin: 300px auto;
+    padding: 20px;
+  }
+
+  #scroll-container {
+    width: 300px;
+    height: 300px;
+    background-color: rgb(241, 243, 135);
+    overflow-y: scroll;
+  }
+
+  #scroll-target {
+    width: 100%;
+    height: 1000vh;
+  }
+</style>
 </html>

@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html>
 <body>
-  <button>click me</button>
-  <pre>일반 클릭 이벤트 카운터    <span class="normal-msg">0</span></pre>
-  <pre>디바운스 클릭 이벤트 카운터 <span class="debounce-msg">0</span></pre>
-  <pre>스로틀 클릭 이벤트 카운터   <span class="throttle-msg">0</span></pre>
+  <div id="container">
+    <div id="left">
+      <pre>일반 클릭 이벤트 카운터    <span class="normal-msg">0</span></pre>
+      <pre>디바운스 클릭 이벤트 카운터 (delay 1s) <span class="debounce-msg">0</span></pre>
+      <pre>스로틀 클릭 이벤트 카운터 (delay 1s)  <span class="throttle-msg">0</span></pre>    
+    </div>
+    <div id="right">
+      <button>click me</button>
+    </div>
+  </div>
   <script>
     const $button = document.querySelector('button');
     const $normalMsg = document.querySelector('.normal-msg');
@@ -34,13 +40,38 @@
       $normalMsg.textContent = +$normalMsg.textContent + 1;
     });
 
+
+    const debounceDelay = 1000;
     $button.addEventListener('click', debounce(() => {
       $debounceMsg.textContent = +$debounceMsg.textContent + 1;
-    }, 500));
+    }, debounceDelay));
 
+    const throttleDelay = 1000;
     $button.addEventListener('click', throttle(() => {
       $throttleMsg.textContent = +$throttleMsg.textContent + 1;
-    }, 500));
+    }, throttleDelay));
   </script>
 </body>
+<style>
+  body {
+    border: 1px solid gray;
+    border-radius: 25px;
+    width: 500px;
+    margin: 300px auto;
+    padding: 20px;
+  }
+
+  #container {
+    display: flex;
+
+  }
+
+  #left {
+    flex-grow: 1;
+  }
+
+  #right > button {
+    height: 100%;
+  }
+</style>
 </html>

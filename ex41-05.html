@@ -1,11 +1,24 @@
 <!DOCTYPE html>
 <html>
 <body>
+  <h3>Debounce 적용 사례</h3>
+  <div id="divider"></div>
+  <label>실시간 주소 검색창</label>
   <input type="text">
-  <div class="msg"></div>
+  <div id="container">
+    <div id="left">
+      <h4>(no debounce) 통신 요청 로그</h4>
+      <div class="msg-list"></div>
+    </div>
+    <div id="right">
+      <h4>(with debounce, delay 300ms) 통신 요청 로그</h4>
+      <div class="debounce-msg-list"></div>
+    </div>
+  </div>
   <script>
     const $input = document.querySelector('input');
-    const $msg = document.querySelector('.msg');
+    const $msg_list = document.querySelector('.msg-list');
+    const $debounce_msg_list = document.querySelector('.debounce-msg-list');
 
     const debounce = (callback, delay) => {
       let timerId;
@@ -18,11 +31,52 @@
         timerId = setTimeout(callback, delay, ...args);
       };
     };
+    $input.addEventListener('input', e => {
+      const $new_msg = document.createElement('div'); 
+      $new_msg.textContent = e.target.value;
+
+      console.log("hello")
+
+      $msg_list.appendChild($new_msg);
+    })
 
     // debounce 함수가 반환하는 클로저가 이벤트 핸들러로 등록된다.
     // 300ms보다 짧은 간격으로 input 이벤트가 발생하면 debounce 함수의 콜백 함수는
     // 호출되지 않다가 300ms 동안 input 이벤트가 더 이상 발생하면 한 번만 호출된다.
-    $input.oninput = debounce(e => {
-      $msg.textContent = e.target.value;
-    }, 300);
+    $input.addEventListener('input', debounce(e => {
+      const $new_msg = document.createElement('div'); 
+      $new_msg.textContent = e.target.value;
+
+      $debounce_msg_list.appendChild($new_msg);
+    }, 300));
   </script>
+</body>
+<style>
+  body {
+    border: 1px solid gray;
+    border-radius: 25px;
+    width: 700px;
+    min-height: 600px;
+    margin: 300px auto;
+    padding: 20px;
+  }
+
+  h3 {
+    border-bottom: 6px solid gray;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+  }
+
+  #container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  #left {
+    border-right: 1px solid gray;
+  }
+  #right {
+    margin-left: 10px;
+  }
+</style>
+</html>
